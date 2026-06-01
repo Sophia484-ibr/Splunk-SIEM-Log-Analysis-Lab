@@ -1,4 +1,5 @@
-# Splunk-SIEM-Log-Analysis-Lab# Windows Event Log Analysis & Detection Lab (Splunk SIEM)
+# Splunk-SIEM-Log-Analysis-Lab# 
+Windows Event Log Analysis & Detection Lab (Splunk SIEM)
 
 ## Objective
 This hands-on project demonstrates how to set up a SIEM pipeline using Splunk Enterprise to monitor, analyze, and detect adversarial activity. I simulated a brute-force attack from a Kali Linux machine against a Windows target, ingested the security logs via a Splunk Universal Forwarder, and built search queries to isolate and identify the malicious actor.
