@@ -24,3 +24,23 @@ Using Kali Linux, I conducted a network brute-force attack against the Windows t
 
 ```bash
 hydra -l Administrator -P custom_wordlist.txt -vV <Target_IP> rdp
+
+Phase 2: Detection & Log Analysis
+Transitioning to the role of a SOC Analyst, I utilized Splunk's Search Processing Language (SPL) to investigate the endpoint telemetry.
+
+1. Identifying Failed Logons
+I queried Windows Event ID 4625 (An account failed to log on) to check for authentication anomalies.
+source="WinEventLog:Security" EventCode=4625
+| stats count by Target_User_Name, IpAddress, Logon_Type
+| sort - count
+
+Analysis Findings:
+Attacker IP Identified: The logs pointed directly to [Insert your Kali IP here].
+
+Targeted Account: Administrator / [Insert your Windows User here].
+
+Volume: Over [Insert number of attempts] failed authentication attempts occurred within a 60-second window, highlighting a clear brute-force signature rather than a standard forgotten password.
+Key Takeaways & Conclusion
+Telemetry is King: Without turning on Advanced Audit Policies in Windows, high-fidelity data like the source IP of a failed network logon would go unrecorded.
+
+Proactive Alerting: This query can be converted directly into a real-time Splunk Alert. If Event Code 4625 triggers >10 times in 1 minute from a single IP, an automated alert can notify the security team to block the source IP at the firewall level.
