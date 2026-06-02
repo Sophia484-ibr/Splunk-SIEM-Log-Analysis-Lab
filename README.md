@@ -1,5 +1,5 @@
-# Splunk-SIEM-Log-Analysis-Lab# 
-Windows Event Log Analysis & Detection Lab (Splunk SIEM)
+# Splunk-SIEM-Log-Analysis-Lab
+# Windows Event Log Analysis & Detection Lab (Splunk SIEM)
 
 ## Objective
 This hands-on project demonstrates how to set up a SIEM pipeline using Splunk Enterprise to monitor, analyze, and detect adversarial activity. I simulated a brute-force attack from a Kali Linux machine against a Windows target, ingested the security logs via a Splunk Universal Forwarder, and built search queries to isolate and identify the malicious actor.
@@ -24,8 +24,9 @@ Using Kali Linux, I conducted a network brute-force attack against the Windows t
 
 ```bash
 hydra -l Administrator -P custom_wordlist.txt -vV <Target_IP> rdp
+---
 
-Phase 2: Detection & Log Analysis
+## Phase 2: Detection & Log Analysis
 Transitioning to the role of a SOC Analyst, I utilized Splunk's Search Processing Language (SPL) to investigate the endpoint telemetry.
 
 1. Identifying Failed Logons
@@ -34,13 +35,13 @@ source="WinEventLog:Security" EventCode=4625
 | stats count by Target_User_Name, IpAddress, Logon_Type
 | sort - count
 
-Analysis Findings:
+## Analysis Findings:
 Attacker IP Identified: The logs pointed directly to [Insert your Kali IP here].
 
 Targeted Account: Administrator / [Insert your Windows User here].
 
 Volume: Over [Insert number of attempts] failed authentication attempts occurred within a 60-second window, highlighting a clear brute-force signature rather than a standard forgotten password.
-Key Takeaways & Conclusion
+## Key Takeaways & Conclusion
 Telemetry is King: Without turning on Advanced Audit Policies in Windows, high-fidelity data like the source IP of a failed network logon would go unrecorded.
 
 Proactive Alerting: This query can be converted directly into a real-time Splunk Alert. If Event Code 4625 triggers >10 times in 1 minute from a single IP, an automated alert can notify the security team to block the source IP at the firewall level.
